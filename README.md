@@ -8,6 +8,12 @@ C# Library for a generic deck of cards. Source is carefully designed to be effic
 - Peeking Top Card
 - Indexer access
 
+### Future functionalty includes:
+- Specialty Cards (Pokemon, MTG, YuGiOh, Trading Card etc.)
+- Different types of Shuffles
+- Splitting deck
+- Casino-style deck building - multiple decks compose a larger deck
+
 
 ##### Example Usage
 Add SharpDeck to your project references.
