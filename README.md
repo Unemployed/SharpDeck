@@ -1,5 +1,5 @@
 # SharpDeck
-C# Library for a generic deck of cards
+C# Library for a generic deck of cards. Source is carefully designed to be efficient and simplistic, whilst following industry programming guidelines.
 
 ### Current functionalty includes:
 - Jokers
@@ -33,3 +33,5 @@ static void Main(string[] args)
 ##### Contributing
 - Feel free to contribute. Fork & make a pull request
 - Unit tests currently have ~97% coverage. Please write tests for your contributions.
+
+This is an easy to work on side project that can help developers reconnect with simple object-oritented design.
