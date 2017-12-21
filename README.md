@@ -4,6 +4,10 @@ C# Library for a generic deck of cards
 ### Current functionalty includes:
 - Jokers
 - Shuffling
+- Dealing Top Card
+- Peeking Top Card
+- Indexer access
+
 
 ##### Example Usage
 Add SharpDeck to your project references.
