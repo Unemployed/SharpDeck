@@ -37,7 +37,7 @@
 
         public override string ToString()
         {
-            return CodeTranslator.Translate(this);
+            return CardTranslator.Translate(this);
         }
 
     }

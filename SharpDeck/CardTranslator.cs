@@ -3,7 +3,7 @@ using System.Text;
 
 namespace SharpDeck
 {
-    static class CodeTranslator
+    static class CardTranslator
     {
         public static string Translate(Card card)
         {
