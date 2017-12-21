@@ -8,27 +8,35 @@ namespace SharpDeck
 
     public class SharpDeck : IEnumerable<Card>
     {
-        Stack<Card> deck = new Stack<Card>();
-        bool hasJokers = false;
+        private List<Card> _deck = new List<Card>();
+        private bool hasJokers = false;
+
         /// <summary>
         /// 
         /// </summary>
         /// <param name="withJokers">Make the deck with two jokers.</param>
         /// <param name="shuffle">Shuffle the deck after making it.</param>
-        public SharpDeck(bool withJokers, bool shuffle)
+        public SharpDeck(bool shuffle = true, bool withJokers = false)
         {
-            //Create The Deck
-            MakeNormalDeck();
+            this.Create();
             hasJokers = withJokers;
             if (withJokers)
             {
-                deck.Push(new Card("JJ"));
-                deck.Push(new Card("JJ"));
+                _deck.Add(new Card(Rank.Joker, Suit.Hearts)); // Suit does not matter for jokers
+                _deck.Add(new Card(Rank.Joker, Suit.Clubs));
             }
 
             if (shuffle)
             {
                 Shuffle(DateTime.Now.Millisecond);
+            }
+        }
+
+        public List<Card> Cards
+        {
+            get
+            {
+                return this._deck;
             }
         }
 
@@ -40,11 +48,11 @@ namespace SharpDeck
         {
             //Shuffle the Deck
             Random rng = new Random(seed);
-            var pos = rng.Next(0, deck.Count);
-            var list = deck.ToList();
+            var pos = rng.Next(0, _deck.Count);
+            var list = _deck.ToList();
             for (int i = 0; i < list.Count() - 1; i++)
             {
-                pos = rng.Next(0, deck.Count);
+                pos = rng.Next(0, _deck.Count);
                 var swapout = list[pos];
                 if (pos != i)
                 {
@@ -53,7 +61,7 @@ namespace SharpDeck
                 }
 
             }
-            deck = new Stack<Card>(list);
+            _deck = new List<Card>(list);
         }
 
         /// <summary>
@@ -63,7 +71,17 @@ namespace SharpDeck
         public Card Deal()
         {
             //Deal the top card
-            return deck.Pop();
+            var card = _deck.First();
+            _deck.RemoveAt(0);
+            return card;
+        }
+        /// <summary>
+        /// Returns the top card without removing it
+        /// </summary>
+        /// <returns>Top card of the deck</returns>
+        public Card Peek()
+        {
+            return _deck.First();
         }
 
         /// <summary>
@@ -75,20 +93,25 @@ namespace SharpDeck
         {
             get
             {
-                return deck.ElementAt(i);
+                return _deck.ElementAt(i);
             }
         }
 
-        public void MakeNormalDeck()
+        private void Create()
         {
-            deck = new Stack<Card>();
-            var CardValues = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
-            foreach (var suit in Enum.GetNames(typeof(Suit)))
+            _deck = new List<Card>();
+            foreach (Suit suit in Enum.GetValues(typeof(Suit))) //O(n^2)
             {
-                var suitKey = suit[0];
-                foreach (var val in CardValues)
+                foreach (Rank rank in Enum.GetValues(typeof(Rank)))
                 {
-                    deck.Push(new Card(val + suitKey));
+                    if (rank == Rank.Joker)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        _deck.Add(new Card(rank, suit));
+                    }
                 }
             }
         }
@@ -98,12 +121,12 @@ namespace SharpDeck
 
         public IEnumerator<Card> GetEnumerator()
         {
-            return deck.GetEnumerator();
+            return _deck.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return deck.GetEnumerator();
+            return _deck.GetEnumerator();
         }
 
         #endregion
